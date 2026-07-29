@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-07-29T10:30:15Z",
+  "agent": {
+    "id": "001",
+    "name": "ubuntu-server"
+  },
+  "rule": {
+    "id": "5716",
+    "level": 10,
+    "description": "sshd: authentication failed"
+  },
+  "srcip": "192.168.159.129",
+  "decoder": {
+    "name": "sshd"
+  },
+  "full_log": "Failed password for invalid user admin from 192.168.159.129 port 52144 ssh2"
+}
