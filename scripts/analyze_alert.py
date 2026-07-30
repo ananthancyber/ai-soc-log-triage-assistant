@@ -1,35 +1,24 @@
 import json
-from ollama import chat
 
-# Load the Wazuh alert
-with open("sample_logs/wazuh_alert.json", "r") as file:
-    alert = json.load(file)
+with open("sample_logs/ssh_failed_alerts.json", "r") as file:
 
-# Create a prompt for the AI
-prompt = f"""
-You are a SOC Analyst.
+    for line in file:
 
-Analyze the following Wazuh alert and provide:
+        line = line.strip()
 
-1. Incident Summary
-2. Severity
-3. Possible MITRE ATT&CK Technique
-4. Investigation Recommendations
+        if not line:
+            continue
 
-Wazuh Alert:
-{json.dumps(alert, indent=2)}
-"""
+        alert = json.loads(line)
 
-# Send the prompt to the local AI model
-response = chat(
-    model="qwen2.5:3b",
-    messages=[
-        {
-            "role": "user",
-            "content": prompt
-        }
-    ]
+        print("=" * 60)
+        print("Rule ID:", alert["rule"]["id"])
+        print("Description:", alert["rule"]["description"])
+        source_ip = (
+    alert.get("data", {}).get("srcip")
+    or alert.get("srcip")
+    or "N/A"
 )
 
-# Print the AI response
-print(response["message"]["content"])
+        print("Source IP:", source_ip)
+        print("Timestamp:", alert["timestamp"])
