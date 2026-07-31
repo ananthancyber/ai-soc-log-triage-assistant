@@ -204,6 +204,13 @@ Generate Markdown Report
 ```
 
 ---
+## Files Modified
+
+| File | Changes |
+|------|---------|
+| `scripts/analyze_alert.py` | Refactored the script into reusable functions and improved AI prompt handling |
+| `docs/Day05.md` | Documented Day 5 implementation, concepts learned, challenges, and outcomes |
+| `reports/ai_soc_report.md` | Generated updated AI security analysis report using the refactored workflow |
 
 # Result
 
