@@ -9,23 +9,24 @@
 
 **Timestamp:** 2026-07-30T05:52:31.696+0000
 
-### AI Analysis
+## AI Analysis
 
 Alert Summary:
-A non-existent user attempted to login via SSH on a system.
+- A user attempted to log in using a non-existent username on the sshd service from an external source IP (192.168.159.129) at 05:52:31 UTC on July 30, 2026.
 
-Severity: High
+Severity:
+- Medium
 
-Possible Threat: Unauthorized access attempt by an attacker trying to exploit a known vulnerability in the SSH service or misconfigured permissions.
+Possible Threat:
+- Insufficient evidence
 
-MITRE ATT&CK Technique (if applicable): A potentially malicious action could be classified under "TA10 - Privilege Escalation" if further investigation confirms it leads to unauthorized privilege levels.
+MITRE ATT&CK:
+- Insufficient evidence
 
 Recommended Actions:
-1. Investigate the login attempt and check for any changes made by this user.
-2. Review SSH configuration files for misconfigurations such as incorrect permissions or open default accounts that could be exploited.
-3. Monitor system logs for additional activity from the same source IP address.
-4. Consider patching the SSH service if there are known vulnerabilities in its version, especially if it’s running on a remote server.
-5. Update user access controls and implement stricter authentication policies to prevent future unauthorized attempts.
+- Review access logs for similar suspicious activities.
+- Monitor the affected system for any unusual behavior or changes in the user permissions.
+- Consider implementing additional security measures such as account lockout policies and monitoring tools.
 
 ---
 
@@ -36,23 +37,24 @@ Recommended Actions:
 
 **Timestamp:** 2026-07-30T05:52:37.698+0000
 
-### AI Analysis
+## AI Analysis
 
 Alert Summary:
-A failed login attempt was detected for a non-existent user via SSH.
+- An attempt was made to login using a non-existent user via SSH, originating from IP address 192.168.159.129 at the timestamp of 2026-07-30T05:52:37.698+0000.
 
-Severity: High
+Severity:
+- Medium
 
-Possible Threat: Unauthorized access attempts targeting known vulnerabilities or compromised credentials.
+Possible Threat:
+- Insufficient evidence
 
-MITRE ATT&KEchnique: 
-- T1087.002 (Brute Force)
+MITRE ATT&CK:
+- Insufficient evidence
 
 Recommended Actions:
-- Investigate the source IP address 192.168.159.129 for any other anomalies.
-- Review SSH access logs and user authentication policies to ensure security controls are in place.
-- Consider implementing additional measures such as multi-factor authentication (MFA) for SSH access.
-- Notify affected users about the potential threat and instruct them on securing their accounts if necessary.
+- Monitor SSH login attempts for further activity.
+- Review access logs to identify any potential misconfiguration or unauthorized use.
+- Consider implementing additional security controls such as IP whitelisting or blocking the suspicious source IP.
 
 ---
 
@@ -63,23 +65,24 @@ Recommended Actions:
 
 **Timestamp:** 2026-07-30T05:52:43.699+0000
 
-### AI Analysis
+## AI Analysis
 
 Alert Summary:
-A failed login attempt was detected from an IP address with a user that does not exist in the SSH service.
+- The alert indicates an attempt to log in using a non-existent user from the IP address 192.168.159.129 at timestamp 2026-07-30T05:52:43.699+0000.
 
-Severity: High
+Severity:
+- Medium
 
-Possible Threat: Unauthorized access attempts through invalid credentials, which could lead to further exploitation of vulnerabilities in the system or services.
+Possible Threat:
+- Insufficient evidence
 
-MITRE ATT&CK Technique (if applicable): TA0048 - Credential Dumping Attack
+MITRE ATT&CK:
+- Insufficient evidence
 
 Recommended Actions:
-1. Investigate the source IP for any other suspicious activities.
-2. Review SSH logs and audit user account creation processes.
-3. Ensure that all users are authenticated properly before granting access to systems with elevated privileges.
-4. Consider implementing additional security measures such as multi-factor authentication (MFA).
-5. Update system configurations, especially if related to SSH, to prevent credential stuffing attacks.
+- Monitor login attempts from the same IP address for further suspicious activity.
+- Review system logs to ensure there is no misconfiguration allowing such attempts.
+- Consider implementing stricter user authentication policies or using multi-factor authentication (MFA).
 
 ---
 
@@ -90,23 +93,24 @@ Recommended Actions:
 
 **Timestamp:** 2026-07-30T05:52:49.701+0000
 
-### AI Analysis
+## AI Analysis
 
 Alert Summary:
-An attempt to login using a non-existent user was detected via SSH.
+- The alert indicates an attempt to log in using a non-existent user via the sshd service from IP address 192.168.159.129 at timestamp 2026-07-30T05:52:49.701+0000.
 
-Severity: High
+Severity:
+- Medium
 
-Possible Threat: Unauthorized access or brute-force attack, where an attacker is trying to guess valid usernames to gain unauthorized access.
+Possible Threat:
+- Insufficient evidence
 
-MITRE ATT&CK Technique (if applicable): T1078.002 - Credential Access
+MITRE ATT&CK:
+- Insufficient evidence
 
 Recommended Actions:
-1. Review the log for additional login attempts from the same source IP.
-2. Disable SSH access for the user that was attempted to be logged in, if known or suspected.
-3. Consider implementing stronger authentication methods such as multi-factor authentication (MFA) for SSH.
-4. Monitor network traffic and system logs for any further suspicious activity related to this incident.
-5. Contact security operations center (SOC) personnel for further action.
+- Monitor login attempts from the same IP address for further suspicious activity.
+- Review sshd configuration to ensure only known, authorized users are allowed access.
+- Consider blocking or alerting on failed login attempts for non-existent user accounts.
 
 ---
 
@@ -117,23 +121,23 @@ Recommended Actions:
 
 **Timestamp:** 2026-07-30T05:52:49.704+0000
 
-### AI Analysis
+## AI Analysis
 
 Alert Summary:
-User attempted to log in multiple times without success on a system, potentially indicating an unauthorized or compromised account.
+- A user attempted to log in more than once with a wrong password, indicating weak authentication practices. This is likely an informational event as it does not suggest immediate security concern or malicious intent.
 
-Severity: Medium
+Severity:
+- Low
 
-Possible Threat: Unauthorized access attempt, possible password brute force attack.
+Possible Threat:
+- Informational event with minimal security impact; no clear indication of threat.
 
-MITRE ATT&CK Technique (if applicable): TA0035 - Credential Access Attempt
+MITRE ATT&CK:
+- Insufficient evidence
 
 Recommended Actions:
-1. Investigate the login activity for any other unusual behavior.
-2. Review user and system logs to confirm if this is a legitimate incident or a potential breach.
-3. Disable the account or change its password if it's determined as compromised.
-4. Implement additional security measures such as multi-factor authentication (MFA) for critical accounts.
-5. Conduct a risk assessment on systems that have experienced failed login attempts.
+- Monitor login attempts for further suspicious behavior.
+- Consider implementing stronger authentication methods to reduce the likelihood of such events.
 
 ---
 
