@@ -54,23 +54,28 @@ This project is being developed incrementally as part of my cybersecurity portfo
 - Integration with real alerts generated from my Wazuh Blue Team Detection Lab
 - AI analysis using realistic attack data instead of synthetic examples
 
+### Retrieval-Augmented Generation (RAG)
+
+- Local cybersecurity knowledge base
+- Rule-based knowledge retrieval
+- Prompt augmentation using retrieved security knowledge
+- First Retrieval-Augmented Generation (RAG) pipeline
 ---
 
 ## 🚧 Currently Working On
 
-- Retrieval-Augmented Generation (RAG)
-- Knowledge retrieval pipeline
-- Security knowledge base integration
-- Prompt optimization
-- Improving AI investigation accuracy
+- Vector embeddings
+- FAISS vector database integration
+- Semantic knowledge retrieval
+- Context-aware AI analysis
 
 ---
 
 ## 📅 Planned
 
-- FAISS vector database
+- Semantic document retrieval
 - LangChain integration
-- MITRE ATT&CK knowledge retrieval
+- Multi-source cybersecurity knowledge base
 - Context-aware AI analysis
 - AI-generated investigation recommendations
 - Interactive web interface
@@ -94,19 +99,20 @@ Real Wazuh Security Alerts
         ▼
 Python Alert Processing
         │
-        ├── Alert Parsing
-        ├── Data Extraction
-        ├── Prompt Generation
-        └── Error Handling
+        ▼
+Rule-Based Knowledge Retrieval
+        │
+        ▼
+Local Cybersecurity Knowledge Base
+        │
+        ▼
+Prompt Construction
         │
         ▼
 Local LLM (Ollama)
         │
         ▼
-AI Security Analysis
-        │
-        ▼
-Markdown SOC Investigation Report
+AI SOC Investigation Report
 ```
 
 ---
@@ -192,7 +198,7 @@ All security alerts used throughout development originate from my own Wazuh Blue
 - ✅ Phase 4 — AI Security Analysis
 - ✅ Phase 5 — Prompt Engineering & Refactoring
 - ✅ Phase 6 — Configuration & Code Quality
-- 🚧 Phase 7 — Retrieval-Augmented Generation (RAG)
-- ⏳ Phase 8 — Vector Database Integration
-- ⏳ Phase 9 — Knowledge Retrieval
+- ✅ Phase 7 — Retrieval-Augmented Generation Foundation
+- 🚧 Phase 8 — Vector Embeddings & FAISS
+- ⏳ Phase 9 — Semantic Retrieval
 - ⏳ Phase 10 — Interactive AI SOC Assistant

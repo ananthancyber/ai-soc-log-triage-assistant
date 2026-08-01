@@ -16,13 +16,19 @@ def extract_source_ip(alert):
         or alert.get("srcip")
         or "N/A"
     )
-def build_prompt(alert, source_ip):
+def build_prompt(alert, source_ip, knowledge):
     """
     Build the prompt sent to the LLM.
     """
 
     return f"""
 You are an experienced Tier 1 SOC Analyst.
+
+Use the following cybersecurity knowledge when analyzing the alert.
+
+Relevant Security Knowledge:
+
+{knowledge}
 
 Analyze the following Wazuh security alert using only the information provided.
 
@@ -83,6 +89,33 @@ def analyze_with_ai(prompt):
 
     except Exception as e:
         return f"AI Error: {e}"
+    
+def load_knowledge_base(alert):
+    """
+    Load only relevant cybersecurity knowledge based on the alert.
+    """
+
+    knowledge = ""
+
+    files = []
+
+    description = alert["rule"]["description"].lower()
+
+    if "ssh" in description:
+        files.append("knowledge_base/ssh_authentication.md")
+        files.append("knowledge_base/mitre_attack.md")
+
+    files.append("knowledge_base/soc_investigation.md")
+
+    for file_path in files:
+        try:
+            with open(file_path, "r", encoding="utf-8") as file:
+                knowledge += file.read()
+                knowledge += "\n\n"
+        except FileNotFoundError:
+            print(f"Warning: {file_path} not found.")
+
+    return knowledge
 
     
 def main():
@@ -93,6 +126,8 @@ def main():
 
         try:
             with open(config.INPUT_FILE, "r") as file:
+
+
 
                 for line in file:
 
@@ -112,11 +147,12 @@ def main():
                     print("Description:", alert["rule"]["description"])
 
                     source_ip = extract_source_ip(alert)
+                    knowledge = load_knowledge_base(alert)
 
                     print("Source IP:", source_ip)
                     print("Timestamp:", alert["timestamp"])
 
-                    prompt = build_prompt(alert, source_ip)
+                    prompt = build_prompt(alert, source_ip, knowledge)
 
                     analysis = analyze_with_ai(prompt)
 
