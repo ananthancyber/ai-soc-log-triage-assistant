@@ -1,5 +1,11 @@
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import json
 import ollama
+import config
 def extract_source_ip(alert):
     """
     Extract the source IP address from a Wazuh alert.
@@ -62,62 +68,77 @@ Do not add any extra sections.
 Do not include explanations outside this template.
 """
 def analyze_with_ai(prompt):
-    """
-    Send the prompt to the LLM and return its response.
-    """
+    try:
+        response = ollama.chat(
+            model=config.MODEL_NAME,
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        )
 
-    response = ollama.chat(
-        model="qwen2.5:3b",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
-    )
+        return response["message"]["content"]
 
-    return response["message"]["content"]
+    except Exception as e:
+        return f"AI Error: {e}"
 
-report = open("reports/ai_soc_report.md", "w", encoding="utf-8")
+    
+def main():
+    with open(config.REPORT_FILE, "w", encoding="utf-8") as report:
 
-report.write("# AI SOC Security Analysis Report\n\n")
-report.write("---\n\n")
+        report.write("# AI SOC Security Analysis Report\n\n")
+        report.write("---\n\n")
 
-with open("sample_logs/ssh_failed_alerts.json", "r") as file:
+        try:
+            with open(config.INPUT_FILE, "r") as file:
 
-    for line in file:
+                for line in file:
 
-        line = line.strip()
+                    line = line.strip()
 
-        if not line:
-            continue
+                    if not line:
+                        continue
 
-        alert = json.loads(line)
+                    try:
+                        alert = json.loads(line)
+                    except json.JSONDecodeError:
+                        print("Warning: Skipping invalid JSON line.")
+                        continue
 
-        print("=" * 60)
-        print("Rule ID:", alert["rule"]["id"])
-        print("Description:", alert["rule"]["description"])
+                    print("=" * 60)
+                    print("Rule ID:", alert["rule"]["id"])
+                    print("Description:", alert["rule"]["description"])
 
-        source_ip = extract_source_ip(alert)
+                    source_ip = extract_source_ip(alert)
 
-        print("Source IP:", source_ip)
-        print("Timestamp:", alert["timestamp"])
+                    print("Source IP:", source_ip)
+                    print("Timestamp:", alert["timestamp"])
 
-        prompt = build_prompt(alert, source_ip)
+                    prompt = build_prompt(alert, source_ip)
 
-        analysis = analyze_with_ai(prompt)
+                    analysis = analyze_with_ai(prompt)
 
-        print("\nAI Analysis")
-        print("-" * 40)
-        print(analysis)
-        report.write(f"## Rule ID: {alert['rule']['id']}\n")
-        report.write(f"**Description:** {alert['rule']['description']}\n\n")
-        report.write(f"**Source IP:** {source_ip}\n\n")
-        report.write(f"**Timestamp:** {alert['timestamp']}\n\n")
+                    print("\nAI Analysis")
+                    print("-" * 40)
+                    print(analysis)
 
-        report.write("## AI Analysis\n\n")
-        report.write(analysis)
-        report.write("\n\n---\n\n")
-report.close()
+                    report.write(f"## Rule ID: {alert['rule']['id']}\n")
+                    report.write(f"**Description:** {alert['rule']['description']}\n\n")
+                    report.write(f"**Source IP:** {source_ip}\n\n")
+                    report.write(f"**Timestamp:** {alert['timestamp']}\n\n")
 
-print("\nReport saved successfully!")        
+                    report.write("## AI Analysis\n\n")
+                    report.write(analysis)
+                    report.write("\n\n---\n\n")
+
+        except FileNotFoundError:
+            print(f"Error: Input file '{config.INPUT_FILE}' not found.")
+            sys.exit(1)
+
+        print("\nReport saved successfully!")
+
+
+if __name__ == "__main__":
+    main()

@@ -12,7 +12,7 @@
 ## AI Analysis
 
 Alert Summary:
-- A user attempted to log in using a non-existent username on the sshd service from an external source IP (192.168.159.129) at 05:52:31 UTC on July 30, 2026.
+- An attempt to log in using a non-existent user from IP address 192.168.159.129 was detected at timestamp 2026-07-30T05:52:31.696+0000.
 
 Severity:
 - Medium
@@ -24,9 +24,9 @@ MITRE ATT&CK:
 - Insufficient evidence
 
 Recommended Actions:
-- Review access logs for similar suspicious activities.
-- Monitor the affected system for any unusual behavior or changes in the user permissions.
-- Consider implementing additional security measures such as account lockout policies and monitoring tools.
+- Review access logs for any other suspicious activities.
+- Verify if the IP address is part of a known malicious domain or range.
+- Monitor SSH traffic and adjust security policies as needed.
 
 ---
 
@@ -40,21 +40,21 @@ Recommended Actions:
 ## AI Analysis
 
 Alert Summary:
-- An attempt was made to login using a non-existent user via SSH, originating from IP address 192.168.159.129 at the timestamp of 2026-07-30T05:52:37.698+0000.
+- A user attempted to log in using a non-existent username, indicating a potential brute force attack or unauthorized access attempt. The alert comes from a specific IP address that should be monitored further.
 
 Severity:
 - Medium
 
 Possible Threat:
-- Insufficient evidence
+- Unauthorized access attempts or Brute Force Attack
 
 MITRE ATT&CK:
 - Insufficient evidence
 
 Recommended Actions:
-- Monitor SSH login attempts for further activity.
-- Review access logs to identify any potential misconfiguration or unauthorized use.
-- Consider implementing additional security controls such as IP whitelisting or blocking the suspicious source IP.
+- Monitor login activities from the same IP address for further anomalies.
+- Review system logs and network traffic related to this alert.
+- Consider implementing multi-factor authentication (MFA) if not already in place.
 
 ---
 
@@ -68,7 +68,7 @@ Recommended Actions:
 ## AI Analysis
 
 Alert Summary:
-- The alert indicates an attempt to log in using a non-existent user from the IP address 192.168.159.129 at timestamp 2026-07-30T05:52:43.699+0000.
+- An attempt was made to log in using a non-existent user via the sshd service from IP address 192.168.159.129 at timestamp 2026-07-30T05:52:43.699+0000.
 
 Severity:
 - Medium
@@ -80,9 +80,9 @@ MITRE ATT&CK:
 - Insufficient evidence
 
 Recommended Actions:
-- Monitor login attempts from the same IP address for further suspicious activity.
-- Review system logs to ensure there is no misconfiguration allowing such attempts.
-- Consider implementing stricter user authentication policies or using multi-factor authentication (MFA).
+- Review system logs for additional context.
+- Investigate the source IP address if it is not a known trusted source.
+- Consider implementing stronger authentication mechanisms.
 
 ---
 
@@ -96,7 +96,7 @@ Recommended Actions:
 ## AI Analysis
 
 Alert Summary:
-- The alert indicates an attempt to log in using a non-existent user via the sshd service from IP address 192.168.159.129 at timestamp 2026-07-30T05:52:49.701+0000.
+- A user attempted to login using a non-existent username, indicating potential unauthorized access attempts. The IP address is within the internal network and the timestamp suggests it occurred at around 5:52 AM UTC on July 30th, 2026.
 
 Severity:
 - Medium
@@ -108,9 +108,9 @@ MITRE ATT&CK:
 - Insufficient evidence
 
 Recommended Actions:
-- Monitor login attempts from the same IP address for further suspicious activity.
-- Review sshd configuration to ensure only known, authorized users are allowed access.
-- Consider blocking or alerting on failed login attempts for non-existent user accounts.
+- Monitor the login attempts from this IP address for further suspicious activities.
+- Review system logs to confirm if other unauthorized login attempts have occurred.
+- Adjust password policies or implement multi-factor authentication (MFA) as a preventive measure.
 
 ---
 
@@ -124,20 +124,21 @@ Recommended Actions:
 ## AI Analysis
 
 Alert Summary:
-- A user attempted to log in more than once with a wrong password, indicating weak authentication practices. This is likely an informational event as it does not suggest immediate security concern or malicious intent.
+- The alert indicates a user attempting to log in multiple times with an incorrect password, which is a common security procedure but can indicate potential unauthorized access attempts.
 
 Severity:
-- Low
+- Medium
 
 Possible Threat:
-- Informational event with minimal security impact; no clear indication of threat.
+- Insufficient evidence
 
 MITRE ATT&CK:
 - Insufficient evidence
 
 Recommended Actions:
-- Monitor login attempts for further suspicious behavior.
-- Consider implementing stronger authentication methods to reduce the likelihood of such events.
+- Monitor login attempts for the affected system/user.
+- Review logs for any unusual activity or patterns that may indicate attempted brute-force attacks.
+- Consider implementing additional security measures such as account lockout policies to prevent password guessing attacks.
 
 ---
 
