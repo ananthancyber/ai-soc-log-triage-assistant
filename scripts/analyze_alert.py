@@ -1,11 +1,20 @@
 import os
 import sys
+import json
+import faiss
+import numpy as np
+
+
+index = faiss.read_index("vector_store/faiss_index.bin")
+
+with open("vector_store/embeddings.json", "r", encoding="utf-8") as file:
+    EMBEDDING_DATA = json.load(file)
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import json
 import ollama
 import config
+
 def extract_source_ip(alert):
     """
     Extract the source IP address from a Wazuh alert.
@@ -116,8 +125,30 @@ def load_knowledge_base(alert):
             print(f"Warning: {file_path} not found.")
 
     return knowledge
+def retrieve_knowledge(query):
+    response = ollama.embed(
+    model="nomic-embed-text",
+    input=query
+)
 
-    
+    query_embedding = np.array(
+        response["embeddings"][0]
+    ).astype("float32")
+
+    query_embedding = np.expand_dims(query_embedding, axis=0)
+
+    distances, indices = index.search(query_embedding, 3)
+
+    knowledge = ""
+
+    for idx in indices[0]:
+        document = EMBEDDING_DATA[idx]["document"]
+
+        with open(document, "r", encoding="utf-8") as file:
+            knowledge += file.read()
+            knowledge += "\n\n"
+
+    return knowledge   
 def main():
     with open(config.REPORT_FILE, "w", encoding="utf-8") as report:
 
@@ -147,7 +178,7 @@ def main():
                     print("Description:", alert["rule"]["description"])
 
                     source_ip = extract_source_ip(alert)
-                    knowledge = load_knowledge_base(alert)
+                    knowledge = retrieve_knowledge(alert["rule"]["description"])
 
                     print("Source IP:", source_ip)
                     print("Timestamp:", alert["timestamp"])
