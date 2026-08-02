@@ -25,7 +25,6 @@ def extract_source_ip(alert):
         or alert.get("srcip")
         or "N/A"
     )
-from app.prompt_builder import build_prompt
 
 def analyze_with_ai(prompt):
     try:
@@ -43,33 +42,6 @@ def analyze_with_ai(prompt):
 
     except Exception as e:
         return f"AI Error: {e}"
-    
-def load_knowledge_base(alert):
-    """
-    Load only relevant cybersecurity knowledge based on the alert.
-    """
-
-    knowledge = ""
-
-    files = []
-
-    description = alert["rule"]["description"].lower()
-
-    if "ssh" in description:
-        files.append("knowledge_base/ssh_authentication.md")
-        files.append("knowledge_base/mitre_attack.md")
-
-    files.append("knowledge_base/soc_investigation.md")
-
-    for file_path in files:
-        try:
-            with open(file_path, "r", encoding="utf-8") as file:
-                knowledge += file.read()
-                knowledge += "\n\n"
-        except FileNotFoundError:
-            print(f"Warning: {file_path} not found.")
-
-    return knowledge
 
 def main():
     with open(config.REPORT_FILE, "w", encoding="utf-8") as report:
@@ -78,7 +50,7 @@ def main():
         report.write("---\n\n")
 
         try:
-            with open(config.INPUT_FILE, "r") as file:
+            with open(config.INPUT_FILE, "r", encoding="utf-8") as file:
 
 
 
