@@ -12,7 +12,7 @@
 ## AI Analysis
 
 Alert Summary:
-- The alert indicates a failed SSH login attempt using a non-existent user, which is suspicious as it could indicate an attempted intrusion or brute force attack.
+- A failed login attempt was recorded for a user that does not exist on the system. The source IP is from an internal network.
 
 Severity:
 - Medium
@@ -21,12 +21,12 @@ Possible Threat:
 - Insufficient evidence
 
 MITRE ATT&CK:
-- T1110 (Brute Force)
+- T1110 / Brute Force
 
 Recommended Actions:
-- Review SSH access logs for any other failed login attempts from the same source IP.
-- Monitor the status of accounts that were temporarily locked due to multiple failed logins.
-- Implement account lockout policies after a certain number of consecutive failed attempts.
+- Review authentication logs for any further failed attempts.
+- Monitor the affected host's activity for unusual behavior.
+- Restrict SSH access to a list of trusted IP addresses if necessary.
 
 ---
 
@@ -40,7 +40,7 @@ Recommended Actions:
 ## AI Analysis
 
 Alert Summary:
-- The alert indicates a failed SSH login attempt using an invalid user account (non-existent user). This could be part of a brute force attack or unauthorized access attempts.
+- An attempt to login using a non-existent user was detected on the host. The alert is related to SSH authentication failures.
 
 Severity:
 - Medium
@@ -49,12 +49,12 @@ Possible Threat:
 - Insufficient evidence
 
 MITRE ATT&CK:
-- T1110 / Brute Force - Multiple failed login attempts, repeated authentication failures, and attempts against multiple user accounts are consistent with a brute force attack. However, the alert does not provide clear evidence of such an attack.
+- T1110 – Brute Force
 
 Recommended Actions:
-- Review and update SSH configurations (e.g., password policy).
-- Increase monitoring for suspicious SSH activity.
-- Consider blocking the source IP address if it is determined to be malicious.
+- Review and update the SSH configuration for additional security.
+- Monitor SSH access logs for further suspicious activities.
+- Consider implementing rate limiting on login attempts.
 
 ---
 
@@ -68,7 +68,7 @@ Recommended Actions:
 ## AI Analysis
 
 Alert Summary:
-- An attempt to login using a non-existent user was detected on the SSH server at IP address 192.168.159.129.
+- The alert indicates a failed login attempt using an invalid user (non-existent user) via SSH, which is unusual but does not provide clear evidence of malicious intent.
 
 Severity:
 - Medium
@@ -76,13 +76,13 @@ Severity:
 Possible Threat:
 - Insufficient evidence
 
-MITRE ATT&CK:
-- T1110 (Brute Force)
+MITRE ATT&CEK:
+- T1110 – Brute Force / Valid Accounts / Insufficient evidence
 
 Recommended Actions:
-- Review authentication logs for additional failed attempts.
-- Check if the source IP address is part of a known bad actor list or has been flagged as malicious in previous alerts.
-- Monitor the affected host for any unusual activity.
+- Review the authentication logs for additional failed login attempts.
+- Check if any user account has been recently disabled or marked as invalid.
+- If multiple failed attempts are observed, consider implementing a rate limit to prevent brute force attacks.
 
 ---
 
@@ -96,21 +96,21 @@ Recommended Actions:
 ## AI Analysis
 
 Alert Summary:
-- The alert indicates a failed SSH login attempt using a non-existent user, which is a common issue but does not strongly suggest malicious activity.
+- The alert indicates a failed login attempt using a non-existent user, which is an SSH authentication failure. This suggests an attempted unauthorized access to the system.
 
 Severity:
-- Low
+- Medium
 
 Possible Threat:
 - Insufficient evidence
 
 MITRE ATT&CK:
-- Insufficient evidence
+- T1110 (Brute Force) / "Insufficient evidence"
 
 Recommended Actions:
-- Review the authentication logs for any additional context.
-- Monitor network traffic and system resources to detect further anomalies.
-- Consider implementing stricter SSH access controls or multi-factor authentication if necessary.
+- Review system and log files for additional context.
+- Monitor further login attempts from the same IP address or different user accounts.
+- Consider changing SSH authentication methods or adding stronger security measures.
 
 ---
 
@@ -124,7 +124,7 @@ Recommended Actions:
 ## AI Analysis
 
 Alert Summary:
-- The alert indicates a user failed to authenticate via SSH more than once, suggesting possible brute force attack attempts.
+- The alert indicates a failed SSH authentication attempt where the user missed the password more than one time, which could be indicative of brute force attack attempts.
 
 Severity:
 - Medium
@@ -133,12 +133,12 @@ Possible Threat:
 - Insufficient evidence
 
 MITRE ATT&CK:
-- T1110 (Brute Force)
+- T1110 – Brute Force
 
 Recommended Actions:
-- Review system logs for further suspicious activity.
-- Monitor affected hosts for additional security events.
-- Consider implementing account lockout policies to prevent brute force attacks.
+- Review and analyze similar alerts for context.
+- Monitor SSH authentication logs for further suspicious activity.
+- Consider implementing additional security measures, such as stronger password policies or multi-factor authentication.
 
 ---
 
