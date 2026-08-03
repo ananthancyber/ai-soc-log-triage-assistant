@@ -44,15 +44,19 @@ def analyze_with_ai(prompt):
         return f"AI Error: {e}"
 
 def main():
+    print("=" * 70)
+    print("AI SOC Log Triage Assistant")
+    print("=" * 70)
+    print()
     with open(config.REPORT_FILE, "w", encoding="utf-8") as report:
 
         report.write("# AI SOC Security Analysis Report\n\n")
         report.write("---\n\n")
 
+        alert_count = 0
+
         try:
             with open(config.INPUT_FILE, "r", encoding="utf-8") as file:
-
-
 
                 for line in file:
 
@@ -67,47 +71,66 @@ def main():
                         print("Warning: Skipping invalid JSON line.")
                         continue
 
-                    print("=" * 60)
-                    print("Rule ID:", alert["rule"]["id"])
-                    print("Description:", alert["rule"]["description"])
+                    alert_count += 1
 
-                    source_ip = extract_source_ip(alert)
-                    knowledge, retrieved_documents = retrieve_knowledge(
-                        alert["rule"]["description"]
-                     )
-                    print("\nRetrieved Knowledge Sources:")
+                    try:
+                        print("=" * 60)
+                        print("Rule ID:", alert["rule"]["id"])
+                        print("Description:", alert["rule"]["description"])
 
-                    for item in retrieved_documents:
-                      print(
-                       f"- {item['document']} "
-                       f"(Distance: {item['distance']:.4f})"
-                       ) 
+                        source_ip = extract_source_ip(alert)
 
+                        knowledge, retrieved_documents = retrieve_knowledge(
+                            alert["rule"]["description"]
+                        )
 
-                    print("Source IP:", source_ip)
-                    print("Timestamp:", alert["timestamp"])
+                        print("\nRetrieved Knowledge Sources:")
 
-                    prompt = build_prompt(alert, source_ip, knowledge)
+                        for item in retrieved_documents:
+                            print(
+                                f"- {item['document']} "
+                                f"(Distance: {item['distance']:.4f})"
+                            )
 
-                    analysis = analyze_with_ai(prompt)
+                        print("Source IP:", source_ip)
+                        print("Timestamp:", alert["timestamp"])
 
-                    print("\nAI Analysis")
-                    print("-" * 40)
-                    print(analysis)
+                        prompt = build_prompt(
+                            alert,
+                            source_ip,
+                            knowledge
+                        )
 
-                    write_report(
-                           report,
-                           alert,
-                           source_ip,
-                           analysis 
-                         )
+                        analysis = analyze_with_ai(prompt)
+
+                        print("\nAI Analysis")
+                        print("-" * 40)
+                        print(analysis)
+
+                        write_report(
+                            report,
+                            alert,
+                            source_ip,
+                            analysis,
+                            retrieved_documents
+                        )
+
+                    except Exception as e:
+                        print(f"Error processing alert: {e}")
+                        continue
 
         except FileNotFoundError:
             print(f"Error: Input file '{config.INPUT_FILE}' not found.")
             sys.exit(1)
 
-        print("\nReport saved successfully!")
+        report.write("# Report Summary\n\n")
+        report.write(f"**Total Alerts Processed:** {alert_count}\n\n")
+        report.write(f"**AI Model:** {config.MODEL_NAME}\n\n")
 
+        print("\nReport saved successfully!")
+        print(f"Processed {alert_count} alerts successfully.")
+        print("Analysis completed.")
+        print("=" * 70)
 
 if __name__ == "__main__":
     main()
