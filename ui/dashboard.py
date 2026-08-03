@@ -1,14 +1,14 @@
 import streamlit as st
 import sys
 import os
-
+import subprocess
 sys.path.append(
     os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))
     )
 )
 
-from scripts.analyze_alert import main
+
 import config
 
 st.set_page_config(
@@ -58,17 +58,54 @@ if uploaded_file is not None:
 
     if analyze_button:
 
-        config.INPUT_FILE = save_path
+       config.INPUT_FILE = save_path
 
-        with st.spinner("Analyzing alerts..."):
-            main()
+       with st.spinner("Analyzing alerts..."):
+ 
+         result = subprocess.run(
+            [
+                sys.executable,
+                "scripts/analyze_alert.py"
+            ],
+            capture_output=True,
+            text=True
+        )
 
-        st.success("Analysis completed successfully!")
+    
 with col2:
     st.subheader("📊 Analysis Results")
 
-    st.write("Analysis results will appear here after processing the uploaded alert file.")
+    if uploaded_file is None:
+        st.write(
+            "Analysis results will appear here after processing the uploaded alert file."
+        )
 
+    elif analyze_button:
+
+        if result.returncode == 0:
+
+            st.success("Analysis completed successfully!")
+
+            report_path = config.REPORT_FILE
+
+            if os.path.exists(report_path):
+
+                with open(report_path, "r", encoding="utf-8") as report_file:
+                    report_content = report_file.read()
+
+                st.markdown(report_content)
+                st.download_button(
+                 label="📥 Download Report",
+                 data=report_content,
+                 file_name="ai_soc_report.md",
+                 mime="text/markdown",
+                 use_container_width=True
+                 )
+            else:
+                st.warning("Report file was not generated.")
+
+        else:
+            st.error(result.stderr)
 st.divider()
 
 st.subheader("ℹ️ Project Features")
