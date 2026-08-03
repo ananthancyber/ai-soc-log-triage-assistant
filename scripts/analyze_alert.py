@@ -72,7 +72,17 @@ def main():
                     print("Description:", alert["rule"]["description"])
 
                     source_ip = extract_source_ip(alert)
-                    knowledge = retrieve_knowledge(alert["rule"]["description"])
+                    knowledge, retrieved_documents = retrieve_knowledge(
+                        alert["rule"]["description"]
+                     )
+                    print("\nRetrieved Knowledge Sources:")
+
+                    for item in retrieved_documents:
+                      print(
+                       f"- {item['document']} "
+                       f"(Distance: {item['distance']:.4f})"
+                       ) 
+
 
                     print("Source IP:", source_ip)
                     print("Timestamp:", alert["timestamp"])
