@@ -2,15 +2,19 @@ import json
 import faiss
 import ollama
 import numpy as np
+import config
 SEPARATOR = "\n\n" + "=" * 60 + "\n\n"
 index = faiss.read_index("vector_store/faiss_index.bin")
 
 with open("vector_store/embeddings.json", "r", encoding="utf-8") as file:
     EMBEDDING_DATA = json.load(file)
 
-def retrieve_knowledge(query):
+def retrieve_knowledge(
+    query,
+    top_k=config.TOP_K_RESULTS
+):
     response = ollama.embed(
-    model="nomic-embed-text",
+    model=config.EMBEDDING_MODEL,
     input=query
 )
 
@@ -20,7 +24,7 @@ def retrieve_knowledge(query):
 
     query_embedding = np.expand_dims(query_embedding, axis=0)
 
-    distances, indices = index.search(query_embedding, 3)
+    distances, indices = index.search(query_embedding, top_k)
     retrieved_documents = [] 
     knowledge = ""
 
@@ -39,5 +43,6 @@ def retrieve_knowledge(query):
           knowledge += file.read()
 
           knowledge += SEPARATOR
-
+    print(f"\nRetrieved {len(retrieved_documents)} documents.")
+    
     return knowledge, retrieved_documents       

@@ -26,6 +26,14 @@ def extract_source_ip(alert):
         or "N/A"
     )
 
+def print_section(title):
+    """
+    Print a formatted section header.
+    """
+    print("=" * 70)
+    print(title)
+    print("=" * 70)
+
 def analyze_with_ai(prompt):
     try:
         response = ollama.chat(
@@ -44,10 +52,16 @@ def analyze_with_ai(prompt):
         return f"AI Error: {e}"
 
 def main():
-    print("=" * 70)
-    print("AI SOC Log Triage Assistant")
+    print_section("AI SOC Log Triage Assistant")
+    print()
+    print("Configuration")
+    print("-" * 70)
+    print(f"AI Model        : {config.MODEL_NAME}")
+    print(f"Embedding Model : {config.EMBEDDING_MODEL}")
+    print(f"Top-K Results   : {config.TOP_K_RESULTS}")
     print("=" * 70)
     print()
+
     with open(config.REPORT_FILE, "w", encoding="utf-8") as report:
 
         report.write("# AI SOC Security Analysis Report\n\n")
@@ -73,8 +87,10 @@ def main():
 
                     alert_count += 1
 
+                    print_section(f"Processing Alert #{alert_count}")
+
                     try:
-                        print("=" * 60)
+                        
                         print("Rule ID:", alert["rule"]["id"])
                         print("Description:", alert["rule"]["description"])
 
