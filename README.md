@@ -318,7 +318,19 @@ python scripts/test_retriever.py
 
 ## 📸 Screenshots
 
-> Populate with actual images from `screenshots/day14/` and `screenshots/day15/`.
+<p align="center">
+  <img src="screenshots\day15\day15-01-dashboard-metrics.png" width="48%">
+  <img src="screenshots/day14/day14-03-file-upload.png" width="48%">
+</p>
+
+<p align="center">
+  <img src="screenshots/day15/day15-05-processing-status.png" width="48%">
+  <img src="screenshots\day15\day15-02-report-expander.png" width="48%">
+</p>
+
+<p align="center">
+  <img src="screenshots\day15\day15-04-error-handling.png" width="80%">
+</p.
 
 - **Dashboard home** — runtime metrics (model, embedding model, Top-K)
 - **File upload** — JSONL alert upload flow
@@ -419,7 +431,7 @@ Grounded in actual commit history and code, not invented:
 
 Only items genuinely not yet implemented:
 
-- Fix and regenerate `requirements.txt` (UTF-16 encoding, missing `faiss-cpu`/`numpy`/`streamlit`)
+
 - Add an actual automated test suite (`pytest`) with assertions
 - Live Wazuh Manager API integration (currently offline file-based only)
 - Expand the knowledge base beyond three documents
@@ -427,7 +439,6 @@ Only items genuinely not yet implemented:
 - Docker / Docker Compose packaging
 - PDF/HTML report export in addition to Markdown
 - Batch analysis progress bar in the dashboard for large JSONL files
-- Remove dead files (`app/analyzer.py`, misnamed `app/init__.py`)
 
 ---
 
@@ -437,18 +448,6 @@ This repository documents the full build process across `docs/Day00.md` through 
 
 As of Day 15, remaining work before a v1.0 tag is final testing, a repository review pass, documentation polish, and the architecture diagram — this README is part of that closing pass.
 
----
-
-## ⚠️ Known Limitations
-
-Documented here rather than glossed over, since accuracy matters more than polish:
-
-- `requirements.txt` is broken as committed (wrong encoding, missing dependencies).
-- `LICENSE` file is currently empty — add actual license text (MIT recommended below).
-- `app/analyzer.py` and `app/init__.py` are empty/unused and should be removed.
-- No live Wazuh SIEM connection — alert ingestion is file-based only.
-- No automated test coverage.
-- Knowledge base is intentionally small (3 documents) for this project phase.
 
 ---
 
