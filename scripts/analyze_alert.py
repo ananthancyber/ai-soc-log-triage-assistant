@@ -146,6 +146,8 @@ def main():
         print("\nReport saved successfully!")
         print(f"Processed {alert_count} alerts successfully.")
         print("Analysis completed.")
+
+        return alert_count
         print("=" * 70)
 
 if __name__ == "__main__":

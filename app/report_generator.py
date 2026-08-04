@@ -8,7 +8,7 @@ def write_report(
     """
     Write one alert analysis to the Markdown report.
     """
-    report.write("---" * 80 + "\n\n")
+    report.write("\n---\n\n")
     report.write(f"# Alert {alert['rule']['id']}\n\n")
     report.write(f"**Description:** {alert['rule']['description']}\n\n")
     report.write(f"**Source IP:** {source_ip}\n\n")
