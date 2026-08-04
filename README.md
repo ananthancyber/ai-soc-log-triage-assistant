@@ -291,8 +291,6 @@ python scripts/build_faiss_index.py
 streamlit run ui/dashboard.py
 ```
 
-> ⚠️ **Known limitation:** `requirements.txt` in its current committed state is UTF-16 encoded and missing `faiss-cpu`, `numpy`, and `streamlit`. Step 3 above works around this. Regenerating the file with `pip freeze > requirements.txt` inside a working virtual environment is a pending cleanup item (see *Known Limitations*).
-
 ---
 
 ## ▶️ Usage
