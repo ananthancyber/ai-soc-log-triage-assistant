@@ -169,8 +169,6 @@ ai-soc-log-triage-assistant/
 | Documentation | Markdown, daily engineering log (`docs/`) |
 | Data Handling | Local file I/O only — no external network calls at inference time |
 
-**Planned, not yet implemented:** LangChain, hybrid (keyword + semantic) retrieval, live Wazuh Manager API integration.
-
 ---
 
 ## 🧠 Cybersecurity Skills Demonstrated
